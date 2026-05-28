@@ -1,0 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE transaction (
+    id SERIAL PRIMARY KEY,
+    label VARCHAR(25) NOT NULL,
+    embedding VECTOR(14) NOT NULL
+);
