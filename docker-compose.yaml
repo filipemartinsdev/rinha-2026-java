@@ -21,7 +21,7 @@ services:
           memory: 50
 
   app:
-    image:
+    image: filipemartinsdev/rinha-2026-java:latest
     ports:
       - "9999:9999"
     network_mode: bridge
