@@ -21,9 +21,7 @@ services:
           memory: 50
 
   app:
-    build:
-      context: .
-      dockerfile: src/main/docker/Dockerfile.jvm
+    image:
     ports:
       - "9999:9999"
     network_mode: bridge

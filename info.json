@@ -1,0 +1,7 @@
+{
+  "participants": ["Filipe Martins Andrade"],
+  "social": ["https://github.com/filipemartinsdev", "https://www.linkedin.com/in/filipemartinsandrade"],
+  "source-code-repo": "https://github.com/filipemartinsdev/rinha-2026-java",
+  "stack": ["java", "quarkus", "postgres", "caddy"],
+  "open_to_work": true
+}
