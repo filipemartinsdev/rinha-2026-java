@@ -1,36 +1,33 @@
 services:
   caddy:
+    image: caddy:latest
     container_name: caddy
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
       - "9999:80"
     volumes:
-      - ./caddy/dev.Caddyfile:/etc/caddy/Caddyfile:Z
+      - ./Caddyfile:/etc/caddy/Caddyfile:Z
       - caddy_data:/data
       - caddy_config:/config
     restart: unless-stopped
     deploy:
-      replicas: 2
       resources:
         limits:
           cpus: 0.25
-          memory: 50
+          memory: 50M
 
   app:
     image: filipemartinsdev/rinha-2026-java:latest
-    ports:
-      - "9999:9999"
-    network_mode: bridge
+    depends_on:
+      db:
+        condition: service_started
     deploy:
       replicas: 2
       resources:
         limits:
           cpus: 0.25
-          memory: 100
+          memory: 100M
 
   db:
     image: pgvector/pgvector:pg17-trixie
@@ -44,12 +41,12 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     deploy:
-      replicas: 2
       resources:
         limits:
           cpus: 0.25
-          memory: 100
+          memory: 100M
 
 volumes:
   db_data:
   caddy_data:
+  caddy_config:
