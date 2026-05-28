@@ -1,0 +1,57 @@
+services:
+  caddy:
+    container_name: caddy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+      - "9999:80"
+    volumes:
+      - ./caddy/dev.Caddyfile:/etc/caddy/Caddyfile:Z
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 50
+
+  app:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    ports:
+      - "9999:9999"
+    network_mode: bridge
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 100
+
+  db:
+    image: pgvector/pgvector:pg17-trixie
+    container_name: db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 100
+
+volumes:
+  db_data:
+  caddy_data:
